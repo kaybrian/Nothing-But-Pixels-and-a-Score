@@ -13,13 +13,13 @@ learns to catch every ball.
 
 ## What's here
 
-| File | What it is |
-| --- | --- |
-| `talk-script.md` | Proposal text and the full 30-minute speaker script |
-| `watch-the-ai-learn.html` | The visual demo: watch the AI play Catch, get scored and learn |
-| `dqn_catch.py` | The same AI in Python, printing the game as text in the terminal |
-| `app.py` | Optional Streamlit dashboard: the same agent with charts and sliders |
-| `requirements.txt` | Dependencies for the two Python programs |
+| File                      | What it is                                                           |
+| ------------------------- | -------------------------------------------------------------------- |
+| `talk-script.md`          | Proposal text and the full 30-minute speaker script                  |
+| `watch-the-ai-learn.html` | The visual demo: watch the AI play Catch, get scored and learn       |
+| `dqn_catch.py`            | The same AI in Python, printing the game as text in the terminal     |
+| `app.py`                  | Optional Streamlit dashboard: the same agent with charts and sliders |
+| `requirements.txt`        | Dependencies for the two Python programs                             |
 
 The HTML and the Python are **independent implementations of the same
 algorithm**. Neither imports the other. Both reach a 100% catch rate. If one
@@ -61,17 +61,17 @@ demo, neural network included, is one self-contained HTML file.
 
 ### What you are looking at
 
-| Panel | What it shows |
-| --- | --- |
-| **The arcade screen** | The game. Yellow square is the ball, blue bar is the paddle. |
-| **What the AI sees** | The literal 50 numbers fed to the network. `1` is the ball, `.5` the paddle, `1.5` both in one cell. |
-| **What the AI is thinking** | The network's score for each of the three moves. The highlighted bar is the one it would pick. |
-| **Scoreboard** | Games played, caught, missed, all-time. |
-| **Catch rate, last 50** | Rolling skill. This is the number that climbs. |
-| **Random moves** | How often it is still ignoring what it knows and pressing a random button. Starts at 100%, decays to 5%. |
-| **Memories stored** | Past moments held for replay. Caps at 5,000. |
-| **Brain updates** | How many times the network's weights have been nudged. |
-| **Learning curve** | Catch rate over games. The dashed line is random button-mashing, about 20%. |
+| Panel                       | What it shows                                                                                            |
+| --------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **The arcade screen**       | The game. Yellow square is the ball, blue bar is the paddle.                                             |
+| **What the AI sees**        | The literal 50 numbers fed to the network. `1` is the ball, `.5` the paddle, `1.5` both in one cell.     |
+| **What the AI is thinking** | The network's score for each of the three moves. The highlighted bar is the one it would pick.           |
+| **Scoreboard**              | Games played, caught, missed, all-time.                                                                  |
+| **Catch rate, last 50**     | Rolling skill. This is the number that climbs.                                                           |
+| **Random moves**            | How often it is still ignoring what it knows and pressing a random button. Starts at 100%, decays to 5%. |
+| **Memories stored**         | Past moments held for replay. Caps at 5,000.                                                             |
+| **Brain updates**           | How many times the network's weights have been nudged.                                                   |
+| **Learning curve**          | Catch rate over games. The dashed line is random button-mashing, about 20%.                              |
 
 ### Driving it on stage
 
@@ -83,12 +83,12 @@ demo, neural network included, is one self-contained HTML file.
    every ball.
 4. Press **New untrained AI** to wipe it and start over.
 
-| Key | Does |
-| --- | --- |
-| `Space` | Play or pause |
-| `1` `2` `3` | Watch / Fast / Turbo speed |
-| `T` | Test the AI (no random moves, no learning) |
-| `R` | New untrained AI |
+| Key         | Does                                       |
+| ----------- | ------------------------------------------ |
+| `Space`     | Play or pause                              |
+| `1` `2` `3` | Watch / Fast / Turbo speed                 |
+| `T`         | Test the AI (no random moves, no learning) |
+| `R`         | New untrained AI                           |
 
 **Offline:** the page's single network request is a Google Fonts stylesheet for
 the arcade headings. It loads with `display=swap` and falls back to a monospace
@@ -104,11 +104,13 @@ Do this once, before the talk. Each line explained.
 ```bash
 cd "path/to/nothing-but-pixels"
 ```
+
 Work from the project folder, so `python dqn_catch.py` finds the file.
 
 ```bash
 python3 -m venv .venv
 ```
+
 Create a virtual environment: a private Python install in a `.venv` folder, so
 these packages never collide with anything else on the machine. Run it once;
 after that the folder exists.
@@ -116,6 +118,7 @@ after that the folder exists.
 ```bash
 source .venv/bin/activate
 ```
+
 Activate it. Your prompt gains a `(.venv)` prefix, and from here `python` and
 `pip` mean the ones inside `.venv`. **This is per terminal window** — open a new
 tab and you activate again. On Windows the line is `.venv\Scripts\activate`.
@@ -127,19 +130,21 @@ tab and you activate again. On Windows the line is `.venv\Scripts\activate`.
 ```bash
 pip install -r requirements.txt
 ```
+
 Install the dependencies listed in `requirements.txt`:
 
-| Package | Needed by | Why |
-| --- | --- | --- |
-| `numpy` | `dqn_catch.py` | The only dependency of the talk demo. All the matrix maths. |
-| `streamlit` | `app.py` | The dashboard's web UI. Pinned `>=1.66` for the `width="stretch"` argument that replaced `use_container_width`, which Streamlit removed after 2025-12-31. |
-| `matplotlib` | `app.py` | Draws the game screen as a heatmap in the dashboard. |
+| Package      | Needed by      | Why                                                                                                                                                       |
+| ------------ | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `numpy`      | `dqn_catch.py` | The only dependency of the talk demo. All the matrix maths.                                                                                               |
+| `streamlit`  | `app.py`       | The dashboard's web UI. Pinned `>=1.66` for the `width="stretch"` argument that replaced `use_container_width`, which Streamlit removed after 2025-12-31. |
+| `matplotlib` | `app.py`       | Draws the game screen as a heatmap in the dashboard.                                                                                                      |
 
 If you only want the terminal demo, `pip install numpy` is enough.
 
 ```bash
 python dqn_catch.py --test
 ```
+
 Confirm it all works. Takes about a second. Expect:
 
 ```
@@ -161,18 +166,21 @@ Trains for 800 games in **three or four seconds** and prints its progress.
 ```
 Random button-mashing catches 22% of balls
 ```
+
 The floor. Press buttons at random and you catch roughly one ball in five, by
 luck. Every later number is measured against this.
 
 ```
 Before training:  catches 20% of balls
 ```
+
 The untrained network, playing its best. Same as random — because its weights
 are random. It has learned nothing yet.
 
 ```
 After   50 games: catches 6% of balls   (exploration 89%)
 ```
+
 **Worse than random, and this is not a bug.** At 89% exploration almost every
 move is still a coin flip, and the little it has learned so far is a wrong first
 guess that it is briefly committed to. Learning is not monotonic. Worth saying
@@ -185,6 +193,7 @@ After  300 games: catches 100% of balls   (exploration 33%)
 After  500 games: catches 100% of balls   (exploration 5%)
 After  800 games: catches 100% of balls   (exploration 5%)
 ```
+
 It climbs past random, then saturates. Note the two columns move together:
 as the catch rate rises, exploration falls — it stops guessing because guessing
 has become worse than using what it knows.
@@ -194,17 +203,18 @@ report skill, not luck.
 
 ### Flags
 
-| Flag | What it does |
-| --- | --- |
-| `--watch` | Also print a game before and after training, drawn as text |
-| `--episodes N` | Train on N games instead of 800 |
-| `--seed N` | Same experiment, different dice |
-| `--test` | Run the self-check and exit |
-| `--help` | List all of the above |
+| Flag           | What it does                                               |
+| -------------- | ---------------------------------------------------------- |
+| `--watch`      | Also print a game before and after training, drawn as text |
+| `--episodes N` | Train on N games instead of 800                            |
+| `--seed N`     | Same experiment, different dice                            |
+| `--test`       | Run the self-check and exit                                |
+| `--help`       | List all of the above                                      |
 
 ```bash
 python dqn_catch.py --watch
 ```
+
 Prints three frames of one game before training and three after. A `●` is the
 ball, `▬` the paddle, `◉` both in one cell — which is exactly what a catch
 looks like. The run ends with `CAUGHT IT!` or `Missed.`
@@ -212,12 +222,14 @@ looks like. The run ends with `CAUGHT IT!` or `Missed.`
 ```bash
 python dqn_catch.py --episodes 300
 ```
+
 Shorter run for a tight slot. 300 games is enough to reach 100%; the remaining
 500 only hold it there.
 
 ```bash
 python dqn_catch.py --seed 7
 ```
+
 Everything random in the program — the ball's column, the network's starting
 weights, the exploration dice — comes from one seeded generator. Same seed,
 same run, every time. **If a live run goes badly in front of the room, change
@@ -226,6 +238,7 @@ this number.** Seeds `0` and `7` both reach 100% by game 300.
 ```bash
 python dqn_catch.py --test
 ```
+
 The self-check. It asserts the screen is one ball plus one paddle, that a paddle
 under the ball scores `+1` and away from it scores `−1`, then trains a fresh
 agent for 300 games and fails if it has not comfortably beaten random
@@ -246,12 +259,12 @@ The same agent as `dqn_catch.py` — `app.py` imports it rather than
 reimplementing it — with a live view of the screen, the value it puts on each
 move, and the catch rate climbing.
 
-| Sidebar control | What it does |
-| --- | --- |
-| **Episodes per run** | How many games one press of **Train agent** plays, 10 to 200 |
-| **Random seed** | Applied when you press **Reset agent** |
-| **Show live gameplay** | Draw every frame while training |
-| **Reset agent** | Throw away everything learned and start over |
+| Sidebar control        | What it does                                                 |
+| ---------------------- | ------------------------------------------------------------ |
+| **Episodes per run**   | How many games one press of **Train agent** plays, 10 to 200 |
+| **Random seed**        | Applied when you press **Reset agent**                       |
+| **Show live gameplay** | Draw every frame while training                              |
+| **Reset agent**        | Throw away everything learned and start over                 |
 
 Press **▶ Train agent** to run a batch. Press it again to train further — the
 agent keeps what it learned between batches.
@@ -311,16 +324,22 @@ Every step of every game does four things. They are commented `ACT`, `REMEMBER`,
 
 ### The map
 
-| Part | `dqn_catch.py` | `watch-the-ai-learn.html` |
-| --- | --- | --- |
-| The game | `class Catch` | `class Catch` |
-| The network | `class QNetwork` | `class QNet` |
-| The memory | `class ReplayMemory` | `Agent.memory` |
-| The loop | `train()` | `Agent.step()` |
-| Playing without learning | `play()` | `Agent.testMode` |
+| Part                     | `dqn_catch.py`       | `watch-the-ai-learn.html` |
+| ------------------------ | -------------------- | ------------------------- |
+| The game                 | `class Catch`        | `class Catch`             |
+| The network              | `class QNetwork`     | `class QNet`              |
+| The memory               | `class ReplayMemory` | `Agent.memory`            |
+| The loop                 | `train()`            | `Agent.step()`            |
+| Playing without learning | `play()`             | `Agent.testMode`          |
 
 The network is 50 inputs → 64 hidden units → 3 scores, one per move. ReLU
 activation, Adam optimiser, both written out by hand. Rewards are discounted at
 0.99, errors clipped to ±1, memory holds 5,000 moments, exploration decays from
 100% to 5% over 4,000 steps.
+
 # Nothing-But-Pixels-and-a-Score
+
+## Author ✍️
+
+- Kayongo Johnson Brian
+- [Link to the Slides](https://docs.google.com/presentation/d/1fCjfrfELg_R7MX7EpG4guCwnFIEe9pR9/edit?usp=sharing&ouid=107586622858702891347&rtpof=true&sd=true)
