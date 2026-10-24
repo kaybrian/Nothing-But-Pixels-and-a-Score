@@ -20,6 +20,7 @@ learns to catch every ball.
 | `dqn_catch.py`            | The same AI in Python, printing the game as text in the terminal     |
 | `app.py`                  | Optional Streamlit dashboard: the same agent with charts and sliders |
 | `requirements.txt`        | Dependencies for the two Python programs                             |
+| `Dockerfile`, `compose.yaml` | Run the dashboard and the terminal demo in a container, no Python setup |
 
 The HTML and the Python are **independent implementations of the same
 algorithm**. Neither imports the other. Both reach a 100% catch rate. If one
@@ -44,6 +45,11 @@ python dqn_catch.py --watch
 ```bash
 # 3. The dashboard. Same setup, then:
 streamlit run app.py
+```
+
+```bash
+# 4. The dashboard in Docker. Needs Docker, nothing else.
+docker compose up --build
 ```
 
 ---
@@ -275,6 +281,56 @@ you can watch it play. Turn it off to train in a fraction of the time.
 
 Use this one to explore. For the talk itself, `dqn_catch.py` is faster to read
 on a projector and has nothing to go wrong.
+
+---
+
+## Docker, instead of the Python setup
+
+If you would rather not touch Python on this machine, the whole thing runs in a
+container. You need Docker installed and running; nothing else.
+
+```bash
+docker compose up --build
+```
+
+Builds the image and starts the dashboard at <http://localhost:8501>. Stop it
+with `Ctrl+C`. After the first build, plain `docker compose up` is enough —
+the build is only redone when `requirements.txt` or the code changes.
+
+The terminal demo runs in the same image:
+
+```bash
+docker compose run --rm dashboard python dqn_catch.py --watch
+```
+
+`run` starts a one-off container instead of the dashboard, `--rm` throws it
+away afterwards, and everything after the service name is the command to run —
+so `--test`, `--episodes 300` and the rest of the flags work exactly as they do
+on the host.
+
+Without compose, the same two things:
+
+```bash
+docker build -t nothing-but-pixels .
+docker run --rm -p 8501:8501 nothing-but-pixels
+docker run --rm nothing-but-pixels python dqn_catch.py --watch
+```
+
+`-p 8501:8501` is the part that matters for the dashboard: it maps the
+container's port to the same port on your machine, which is what makes
+`localhost:8501` reach it. The `CMD` in the `Dockerfile` already adds
+`--server.address=0.0.0.0` so Streamlit listens on the container's network
+rather than only its own loopback, where nothing outside could reach it.
+
+| File            | What it is                                                                          |
+| --------------- | ----------------------------------------------------------------------------------- |
+| `Dockerfile`    | Python 3.12 slim, `pip install -r requirements.txt`, the two `.py` files, Streamlit |
+| `compose.yaml`  | One service, `dashboard`, with port 8501 published                                  |
+| `.dockerignore` | Keeps `.venv`, `.git` and the GIF out of the build, so builds stay quick            |
+
+The code is copied into the image, not mounted, so the container is a snapshot:
+edit `app.py` on the host and rebuild to see the change. That is deliberate —
+for a talk you want the thing that ran yesterday to still run today.
 
 ---
 
